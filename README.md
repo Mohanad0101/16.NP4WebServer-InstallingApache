@@ -301,11 +301,14 @@ C:\Windows\System32\drivers\etc\hosts
 ```
 
 Добавьте:
-
-```text
-192.168.56.101   a1.com
-192.168.56.101   b2.com
-192.168.56.101   c3.com
+>замените на свой IP-адрес
+```text 
+192.168.56.103  a1.com
+192.168.56.103  www.a1.com
+192.168.56.103  b2.com
+192.168.56.103  www.b2.com
+192.168.56.103  c3.com
+192.168.56.103  www.c3.com
 ```
 
 > Замените IP на фактический IP вашей VM.
@@ -335,9 +338,9 @@ sudo chown -R $USER:$USER /var/www/a1.com
 sudo chown -R $USER:$USER /var/www/b2.com
 sudo chown -R $USER:$USER /var/www/c3.com
 
-echo "<h1>Добро пожаловать на a1.com!</h1><p>Этот сайт размещён в директории /var/www/a1.com.</p>" > /var/www/a1.com/index.html
-echo "<h1>Добро пожаловать на b2.com!</h1><p>Этот сайт размещён в директории /var/www/b2.com.</p>" > /var/www/b2.com/index.html
-echo "<h1>Добро пожаловать на c3.com!</h1><p>Этот сайт размещён в директории /var/www/c3.com.</p>" > /var/www/c3.com/index.html
+echo '<h1>Welcome to a1.com!</h1><p>This site is located in the directory /var/www/a1.com.</p>' > /var/www/a1.com/index.html
+echo '<h1>Welcome to b2.com!</h1><p>This site is located in the directory /var/www/b2.com.</p>' > /var/www/b2.com/index.html
+echo '<h1>Welcome to c3.com!</h1><p>This site is located in the directory /var/www/c3.com.</p>' > /var/www/c3.com/index.html
 ```
 
 ### 7.2 Конфигурации Virtual Hosts
@@ -411,7 +414,7 @@ sudo systemctl restart apache2
 
 ```bash
 sudo apt install python3-pip -y
-pip3 install art
+sudo pip3 install --break-system-packages art
 ```
 
 ### 8.3 Создать CGI-скрипт
@@ -435,10 +438,12 @@ print(Art)
 sudo chmod 755 /usr/lib/cgi-bin/test.py
 ```
 
-Проверка:
+Проверка: 
+> install curl in windows
+> winget install curl
 
 ```text
-http://a1.com/cgi-bin/test.py
+curl -H "Host: a1.com" http://192.168.56.103/cgi-bin/test.py
 ```
 
 Если виден исходный код вместо результата, проверьте:
