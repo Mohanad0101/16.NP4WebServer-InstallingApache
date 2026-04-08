@@ -23,7 +23,8 @@
   - [6. Часть 2. Установка Ubuntu Server и базовых инструментов](#6-часть-2-установка-ubuntu-server-и-базовых-инструментов)
   - [7. Часть 3. Установка Apache2 и проверка страницы по умолчанию](#7-часть-3-установка-apache2-и-проверка-страницы-по-умолчанию)
     - [3.1 Установка Apache](#31-установка-apache)
-    - [3.2 Проверка с хостовой машины](#32-проверка-с-хостовой-машины)
+    - [3.2 Настройка брандмауэра (UFW)](#32-настройка-брандмауэра-ufw)
+    - [3.3 Проверка с хостовой машины](#33-проверка-с-хостовой-машины)
   - [8. Часть 4. Изменение порта Apache на 8080](#8-часть-4-изменение-порта-apache-на-8080)
     - [4.1 Изменить `ports.conf`](#41-изменить-portsconf)
     - [4.2 Обновить виртуальный хост по умолчанию](#42-обновить-виртуальный-хост-по-умолчанию)
@@ -140,8 +141,22 @@
 ```bash
 sudo apt update
 sudo apt upgrade -y
-sudo apt install net-tools -y
+sudo apt install net-tools isc-dhcp-client -y
+```
+- SSH‑сервер уже должен быть установлен и запущен. Проверим его статус:
+```bash
+sudo systemctl status ssh
+```
+Если служба не активна, запустите и добавьте в автозагрузку:
+```bash
+sudo systemctl enable --now ssh
+```
+```bash
+ip -br link
 ifconfig enp0s8
+sudo ip link set enp0s8 up
+sudo dhclient -v enp0s8
+ip addr show | grep inet
 ```
 
 Зафиксируйте IP интерфейса `enp0s8` (обычно `192.168.56.x`) — он нужен в последующих шагах.
@@ -157,7 +172,42 @@ sudo apt install apache2 -y
 sudo systemctl status apache2
 ```
 
-### 3.2 Проверка с хостовой машины
+
+###  3.2 Настройка брандмауэра (UFW)
+UFW (Uncomplicated Firewall) — простой интерфейс для управления правилами iptables.
+Просмотрим доступные профили приложений:
+```bash
+sudo ufw app list
+```
+Должны отображаться Apache, Apache Full, Apache Secure и OpenSSH.
+Разрешим только необходимый трафик:
+```bash
+sudo ufw allow OpenSSH
+sudo ufw allow 'Apache Full'   # Разрешает и HTTP (80), и HTTPS (443)
+```
+Включим брандмауэр:
+```bash
+sudo ufw enable
+```
+Проверим статус:
+
+```bash
+sudo ufw status
+```
+Пример вывода:
+text
+Status: active
+
+To                |         Action |    From
+--                |         ------   |   ----
+OpenSSH          |          ALLOW   |    Anywhere
+Apache Full                ALLOW     |  Anywhere
+OpenSSH (v6)     |          ALLOW    |   Anywhere (v6)
+Apache Full (v6) |          ALLOW    |   Anywhere (v6)
+
+
+
+### 3.3 Проверка с хостовой машины
 
 Откройте в браузере:
 
