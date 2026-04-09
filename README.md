@@ -448,8 +448,9 @@ sudo systemctl reload apache2
 - `http://c3.com`
 
 Каждый домен должен показывать свой контент.
-
----
+### 7.5
+Modify a1.com home page to display your group and name, then browse it
+--
 
 ## 12. Часть 8. CGI-скрипт Python + ASCII-art
 
