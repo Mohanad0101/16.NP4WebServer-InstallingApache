@@ -354,19 +354,18 @@ C:\Windows\System32\drivers\etc\hosts
 
 ```text
 Linux
-sudo nano /etc/hosts
-
+sudo vim /etc/hosts
 ```
 
 Добавьте:
 >замените на свой IP-адрес
 ```text 
-192.168.56.103  a1.com
-192.168.56.103  www.a1.com
-192.168.56.103  b2.com
-192.168.56.103  www.b2.com
-192.168.56.103  c3.com
-192.168.56.103  www.c3.com
+192.168.56.XX  a1.com
+192.168.56.XX  www.a1.com
+192.168.56.XX  b2.com
+192.168.56.XX  www.b2.com
+192.168.56.XX  c3.com
+192.168.56.XX  www.c3.com
 ```
 
 > Замените IP на фактический IP вашей VM.
