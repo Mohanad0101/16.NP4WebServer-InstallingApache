@@ -347,7 +347,15 @@ sudo tail -f /var/log/apache2/error.log
 На Windows (Notepad от имени администратора) откройте:
 
 ```text
+windows
 C:\Windows\System32\drivers\etc\hosts
+
+```
+
+```text
+Linux
+sudo nano /etc/hosts
+
 ```
 
 Добавьте:
